@@ -7,7 +7,7 @@ cursor = con.cursor()
 cursor.execute('''DROP TABLE ALUNO''')
 con.commit()
 #DEFINO DADOS
-cursor.execute('''CREATE TABLE ALUNO(MATRICULA INTEGER, CPF INT, NOME VARVCHAR(20))''')
+cursor.execute('''CREATE TABLE ALUNO(NUMEOR INT, SALDO INT''')
 
 #INSIRO DADOS
 cursor.execute("INSERT INTO ALUNO VALUES(10, 1, 'Neto')")
