@@ -1,5 +1,13 @@
 import random
-import sqlite3
+import mysql.connector
+
+con = mysql.connector.connect(user='sql10591880',
+                              password='Uj8canyVDM',
+                              host='sql10.freemysqlhosting.net',
+                              port=3306,
+                              database='sql10591880')
+
+cursor = con.cursor()
 
 class Conta():
     def __init__(self, numConta):
@@ -9,7 +17,7 @@ class Conta():
 class Banco():
     def __init__(self, nome):
         self.nome = nome
-        self.con = sqlite3.connect('DATABASE.db')
+        self.con = con
         self.cursor = self.con.cursor()
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS CONTAS (num INT, saldo REAL)''')
         self.con.commit()
