@@ -19,7 +19,7 @@ class Banco():
         self.nome = nome
         self.con = con
         self.cursor = self.con.cursor()
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS CONTAS (num INT, saldo REAL)''')
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS CONTAS (NUM INT, SALDO REAL)''')
         self.con.commit()
         
     def getNome(self):
@@ -27,12 +27,12 @@ class Banco():
 
     def criarConta(self):
         num = random.randint(0, 1000)
-        self.cursor.execute(f"INSERT INTO CONTAS (num, saldo) VALUES ({num}, 0)")
+        self.cursor.execute(f"INSERT INTO CONTAS (NUM, SALDO) VALUES ({num}, 0)")
         self.con.commit()
         return num
 
     def consultaSaldo(self, numConta):
-        self.cursor.execute(f"SELECT saldo FROM CONTAS WHERE num = {numConta}")
+        self.cursor.execute(f"SELECT SALDO FROM CONTAS WHERE NUM = {numConta}")
         saldo = self.cursor.fetchone()
         if saldo:
             return saldo[0]
@@ -40,14 +40,14 @@ class Banco():
             return -1
 
     def depositar(self, numConta, valor):
-        self.cursor.execute(f"UPDATE CONTAS SET saldo = saldo + {valor} WHERE num = {numConta}")
+        self.cursor.execute(f"UPDATE CONTAS SET SALDO = SALDO + {valor} WHERE NUM = {numConta}")
         self.con.commit()
 
     def sacar(self, numConta, valor):
-        self.cursor.execute(f"SELECT saldo FROM CONTAS WHERE num = {numConta}")
+        self.cursor.execute(f"SELECT SALDO FROM CONTAS WHERE NUM = {numConta}")
         saldo = self.cursor.fetchone()
         if saldo and saldo[0] >= valor:
-            self.cursor.execute(f"UPDATE CONTAS SET saldo = saldo - {valor} WHERE num = {numConta}")
+            self.cursor.execute(f"UPDATE CONTAS SET SALDO = SALDO - {valor} WHERE NUM = {numConta}")
             self.con.commit()
             return True
         else:
