@@ -39,6 +39,8 @@ while escolha > 0:
             print("Valor Sacado")
         else:
             print("Saldo Insuficiente")
+    else:
+        bancoUfrpe.closeConnection()
     imprimeMenu()
     escolha = int(input("digite a opção desejada:"))
 
