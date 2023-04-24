@@ -3,7 +3,7 @@ import sqlite3
 
 
 # Abre o arquivo CSV
-with open('Teste\Dados_PET\ITM-22-111-Am-08-CBI22-077-EQUALIZACAO_4X_C20-_Final-05-01-23_.csv', 'r') as arquivo_csv:
+with open('Dados_PET\ITM-22-111-Am-08-CBI22-077-EQUALIZACAO_4X_C20-_Final-05-01-23_.csv', 'r') as arquivo_csv:
     # Lê o arquivo CSV
     leitor_csv = pd.read_csv(arquivo_csv, sep=',', on_bad_lines='skip', low_memory=False)
     leitor_csv['Current'] = pd.to_numeric(leitor_csv['Current'], errors='coerce')
@@ -18,7 +18,10 @@ with open('Teste\Dados_PET\ITM-22-111-Am-08-CBI22-077-EQUALIZACAO_4X_C20-_Final-
     leitor_csv['WhDch'] = pd.to_numeric(leitor_csv['WhDch'], errors='coerce')
     leitor_csv['WhStep'] = pd.to_numeric(leitor_csv['WhStep'], errors='coerce')
     leitor_csv = leitor_csv.fillna(0)
+    leitor_csv= leitor_csv[~leitor_csv['Status'].isin(['STO', 'PAU', 'MSG', 'INT'])]
+    leitor_csv = leitor_csv.fillna(0)
     p = leitor_csv.groupby('Step').last()
+   
  
     
 
@@ -97,9 +100,6 @@ with open('Teste\Dados_PET\ITM-22-111-Am-08-CBI22-077-EQUALIZACAO_4X_C20-_Final-
         conexao.execute("INSERT INTO rel (Time_Stamp, Status, Prog_Time, Step_Time, Cycle, Cycle_Level, Procedure, Voltage, Current, AhCha, AhDch, AhStep, AhAccu, WhAccu, WhCha, WhDch, WhStep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                         (Time_Stamp, Status, Prog_Time, Step_Time, Cycle, Cycle_Level, Procedure, Voltage, Current, AhCha, AhDch, AhStep, AhAccu, WhAccu, WhCha, WhDch, WhStep))
         
-    # Salva as alterações no banco de dados
-    conexao.commit()
-    conexao.execute("DELETE FROM rel WHERE Voltage = 0;")
 
     # Salve as alterações no banco de dados
     conexao.commit()
