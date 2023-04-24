@@ -1,6 +1,6 @@
 import pandas as pd
 import sqlite3
-from scipy import stats
+import matplotlib.pyplot as plt
 
 ####################################################################################################
 # Abre o arquivo CSV
@@ -277,8 +277,6 @@ df = pd.DataFrame({'Média-de-Tensão-CBI22-077': tensao_78,
                    'Média-de-Corrente-CBI22-077': corrente_78,
                    'Média-de-Tensão-CBI22-076': tensao_34,
                    'Média-de-Corrente-CBI22-076': corrente_34})
-print(df)
-
 
 # Conectar ao banco de dados
 conexao = sqlite3.connect('medias.db')
@@ -304,3 +302,19 @@ conexao.commit()
 
 # Fechar a conexão
 conexao.close()
+
+# Crie um gráfico de dispersão
+plt.plot(df['Média-de-Tensão-CBI22-077'], df['Média-de-Corrente-CBI22-077'], 'o', label='CBI22-077')
+plt.plot(df['Média-de-Tensão-CBI22-076'], df['Média-de-Corrente-CBI22-076'], 'o', label='CBI22-076')
+
+# Adicione rótulos de eixo e título
+plt.xlabel('Tensão (V)')
+plt.ylabel('Corrente (A)')
+plt.title('POLARIZAÇÃO CV')
+
+# Adicione uma legenda
+plt.legend()
+plt.grid()
+
+# Exiba o gráfico
+plt.show()
